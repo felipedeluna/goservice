@@ -32,9 +32,8 @@ public class PrestadorService {
         Optional<Prestador> prestador = prestadorRepository.findById(id);
         if (prestador.isPresent()){
             return prestador.get();
-        } else {
-            throw new RuntimeException("Prestador não encontrado.");
         }
+        throw new RuntimeException("Prestador não encontrado.");
     }
 
     public Prestador update(Prestador prestador){
