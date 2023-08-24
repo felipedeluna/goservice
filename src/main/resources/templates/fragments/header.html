@@ -1,7 +1,7 @@
 <header xmlns:th="http://www.thymeleaf.org" class="shadow p-3" th:fragment="header">
     <div class="container">
         <div class="d-flex gap-3 align-items-center justify-content-center justify-content-lg-start">
-            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none" >
                 <h1>GoService</h1>
             </a>
 
@@ -54,7 +54,7 @@
                     <li><a class="dropdown-item" href="/auth/password/new">Editar Senha</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li>
-                        <form method="post" action="/logout">
+                        <form method="post" th:action="@{/logout}">
                             <button class="dropdown-item" type="submit">Logout</button>
                         </form>
                     </li>
