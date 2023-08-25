@@ -32,7 +32,7 @@ public class UsuarioService {
         if(result.isPresent()){
             return result.get();
         }
-        throw new UsuarioNaoEncontradoException("Usuário não encontrado");
+        throw new UsuarioNaoEncontradoException();
     }
 
     public Usuario createUser(Usuario usuario){
@@ -74,7 +74,7 @@ public class UsuarioService {
             usuarioRepository.updateEnableById(false, id);
             return;
         }
-        throw new UsuarioNaoEncontradoException("Usuário não encontrado");
+        throw new UsuarioNaoEncontradoException("Usuário não encontrado!");
     }
 
     @Transactional
@@ -84,6 +84,6 @@ public class UsuarioService {
             usuarioRepository.updateEnableById(true, id);
             return;
         }
-        throw new UsuarioNaoEncontradoException("Usuário não encontrado");
+        throw new UsuarioNaoEncontradoException();
     }
 }

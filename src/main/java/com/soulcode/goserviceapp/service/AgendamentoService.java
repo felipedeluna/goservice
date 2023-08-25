@@ -7,6 +7,8 @@ import com.soulcode.goserviceapp.domain.Servico;
 import com.soulcode.goserviceapp.domain.enums.StatusAgendamento;
 import com.soulcode.goserviceapp.repository.AgendamentoRepository;
 
+import com.soulcode.goserviceapp.service.exceptions.AgendamentoNaoEncontradoException;
+import com.soulcode.goserviceapp.service.exceptions.StatusAgendamentoImutavelException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -35,7 +37,7 @@ public class AgendamentoService {
       if (agendamento.isPresent()){
           return agendamento.get();
       }
-      throw new RuntimeException("Agendamento não encontrado.");
+      throw new AgendamentoNaoEncontradoException();
     }
 
     public Agendamento create(Authentication authentication, Long servicoId, Long prestadorId, LocalDate data, LocalTime hora){
@@ -70,7 +72,7 @@ public class AgendamentoService {
             agendamentoRepository.save(agendamento);
             return;
         }
-        throw new RuntimeException("Agendamento imutável.");
+        throw new StatusAgendamentoImutavelException();
     }
     public void confirmAgenda(Authentication authentication, Long id){
         Prestador prestador = prestadorService.findAuthenticated(authentication);
@@ -80,7 +82,7 @@ public class AgendamentoService {
             agendamentoRepository.save(agendamento);
             return;
         }
-        throw new RuntimeException("Agendamento imutável.");
+        throw new StatusAgendamentoImutavelException();
     }
 
     public void cancelAgendaCliente(Authentication authentication, Long id){
@@ -91,7 +93,7 @@ public class AgendamentoService {
             agendamentoRepository.save(agendamento);
             return;
         }
-        throw new RuntimeException("Agendamento imutável.");
+        throw new StatusAgendamentoImutavelException();
     }
     public void completeAgenda(Authentication authentication, Long id){
         Cliente cliente = clienteService.findAuthenticated(authentication);
@@ -101,6 +103,6 @@ public class AgendamentoService {
             agendamentoRepository.save(agendamento);
             return;
         }
-        throw new RuntimeException("Agendamento imutável.");
+        throw new StatusAgendamentoImutavelException();
     }
 }
