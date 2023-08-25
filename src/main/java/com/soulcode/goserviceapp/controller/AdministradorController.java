@@ -1,6 +1,8 @@
 package com.soulcode.goserviceapp.controller;
 
+import com.soulcode.goserviceapp.domain.Servico;
 import com.soulcode.goserviceapp.domain.Usuario;
+import com.soulcode.goserviceapp.service.ServicoService;
 import com.soulcode.goserviceapp.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,11 +20,31 @@ import java.util.List;
 public class AdministradorController {
 
     @Autowired
+    private ServicoService servicoService;
+
+    @Autowired
     private UsuarioService usuarioService;
 
     @GetMapping(value = "/servicos")
-    public String servico(){
-        return "servicosAdmin";
+    public ModelAndView servico(){
+        ModelAndView mv = new ModelAndView("servicosAdmin");
+        try{
+            List<Servico> servicos = servicoService.findAll();
+            mv.addObject("servicos", servicos);
+        } catch (Exception ex){
+            mv.addObject("errorMessage", "Erro ao buscar dados de serviços.");
+        }
+        return mv;
+    }
+    @PostMapping(value = "/servicos")
+    public String createService(Servico servico, RedirectAttributes attributes){
+        try {
+            servicoService.createServico(servico);
+            attributes.addFlashAttribute("successMessage", "Novo serviço criado com sucesso!");
+        } catch (Exception ex){
+            attributes.addFlashAttribute("errorMessage", "Erro ao cadastrar novo servico.");
+        }
+        return "redirect:/admin/servicos";
     }
 
     @GetMapping(value = "/usuarios")
