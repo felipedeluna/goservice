@@ -18,14 +18,14 @@ public class ServicoService {
         servico.setId(null);
         return servicoRepository.save(servico);
     }
-    public Servico updateServico(Servico servico){
+    public Servico updateServicoById(Servico servico){
         Servico updateServico = this.findById(servico.getId());
         updateServico.setNome(servico.getNome());
         updateServico.setDescricao(servico.getDescricao());
         updateServico.setCategoria(servico.getCategoria());
         return servicoRepository.save(servico);
     }
-    public void removeServico(Long id){
+    public void removeServicoById(Long id){
         servicoRepository.deleteById(id);
     }
 
