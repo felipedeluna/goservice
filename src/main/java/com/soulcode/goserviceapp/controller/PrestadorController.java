@@ -37,6 +37,8 @@ public class PrestadorController {
             mv.addObject("prestador", prestador);
             List<Servico> especialidades = servicoService.findByPrestadorEmail(authentication.getName());
             mv.addObject("especialidades", especialidades);
+            List<Servico> servicos = servicoService.findAll();
+            mv.addObject("servicos", servicos);
         } catch (UsuarioNaoAutenticadoException | UsuarioNaoEncontradoException ex){
             mv.addObject("errorMessage",ex.getMessage());
         } catch (Exception ex){
@@ -71,6 +73,21 @@ public class PrestadorController {
         }
         return "redirect:/prestador/dados";
     }
+    @PostMapping(value = "/dados/adicionar/especialidade")
+    public String adicionarEspecialidade(@RequestParam(name = "servicoId") Long id,
+                                       RedirectAttributes attributes,
+                                       Authentication authentication){
+        try {
+            prestadorService.addServicoPrestador(authentication, id);
+            attributes.addFlashAttribute("successMessage", "Especialidade adicionada com sucesso!");
+        } catch (UsuarioNaoEncontradoException | UsuarioNaoAutenticadoException | ServicoNaoEncontradoException ex) {
+            attributes.addFlashAttribute("errorMessage", ex.getMessage());
+        }catch (Exception ex) {
+            attributes.addFlashAttribute("errorMessage", "Erro ao adicionar especialidade");
+        }
+        return "redirect:/prestador/dados";
+    }
+
 
     @GetMapping(value = "/agenda")
     public String agenda() {

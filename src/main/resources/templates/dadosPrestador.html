@@ -49,6 +49,7 @@
                 <form class="d-flex gap-3 my-3" method="post" th:action="@{/prestador/dados/adicionar/especialidade}">
                     <select class="form-select" id="servicoId" name="servicoId" required>
                         <option value="" disabled selected>Selecione uma especialidade</option>
+                        <option th:each="servico : ${servicos}" th:if="!${especialidades.contains(servico)}" th:value="${servico.id}" th:text="${servico.nome}"></option>
                     </select>
                     <button type="submit" class="btn btn-primary" style="width: 9rem">Adicionar <i class="bi bi-plus-circle ms-2"></i></button>
                 </form>
@@ -58,6 +59,7 @@
                     <tr>
                         <th>#</th>
                         <th>Especialidade</th>
+                        <th>Descrição</th>
                         <th>Apagar</th>
                     </tr>
                     </thead>
@@ -65,6 +67,7 @@
                     <tr th:each="especialidade, index : ${especialidades}">
                         <td th:text="${index.count}"></td>
                         <td th:text="${especialidade.nome}"></td>
+                        <td th:text="${especialidade.descricao}"></td>
                         <td>
                             <button class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#deleteModal' + ${especialidade.id}">
                                 Excluir <i class="bi bi-trash-fill ms-2"></i>
