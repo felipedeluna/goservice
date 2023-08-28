@@ -18,7 +18,7 @@ public class ServicoService {
         servico.setId(null);
         return servicoRepository.save(servico);
     }
-    public Servico updateServicoById(Servico servico){
+    public Servico updateServico(Servico servico){
         Servico updateServico = this.findById(servico.getId());
         updateServico.setNome(servico.getNome());
         updateServico.setDescricao(servico.getDescricao());

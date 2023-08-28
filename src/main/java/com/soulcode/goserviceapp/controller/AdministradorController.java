@@ -56,9 +56,29 @@ public class AdministradorController {
     }
 
     @GetMapping(value = "/servicos/editar/{id}")
-    public String editService(@PathVariable Long id){
-
-        return "editarServico";
+    public ModelAndView editService(@PathVariable Long id){
+        ModelAndView mv = new ModelAndView("editarServico");
+        try {
+            Servico servico = servicoService.findById(id);
+            mv.addObject("servico", servico);
+        } catch (ServicoNaoEncontradoException ex) {
+            mv.addObject("errorMessage", ex.getMessage());
+        } catch (Exception ex) {
+            mv.addObject("errorMessage", "Erro ao buscar no banco de dados");
+        }
+        return mv;
+    }
+    @PostMapping(value = "/servicos/editar")
+    public String updateService(Servico servico, RedirectAttributes attributes){
+        try {
+            servicoService.updateServico(servico);
+            attributes.addFlashAttribute("successMessage", "Servico atualizado com sucesso!");
+        } catch (ServicoNaoEncontradoException ex){
+            attributes.addFlashAttribute("errorMessage", ex.getMessage());
+        }catch (Exception ex){
+            attributes.addFlashAttribute("errorMessage", "Erro ao atualizar serviço.");
+        }
+        return "redirect:/admin/servicos";
     }
 
     @GetMapping(value = "/usuarios")
