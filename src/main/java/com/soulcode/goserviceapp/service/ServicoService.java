@@ -40,4 +40,8 @@ public class ServicoService {
             throw new ServicoNaoEncontradoException("Seviço não encontrado");
         }
     }
+
+    public List<Servico> findByPrestadorEmail(String email){
+        return servicoRepository.findByPrestadorEmail(email);
+    }
 }
